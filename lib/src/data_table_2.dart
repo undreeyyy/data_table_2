@@ -248,13 +248,17 @@ class DataTable2 extends DataTable {
           end: (checkboxHorizontalMargin ?? effectiveHorizontalMargin) / 2.0,
         ),
         child: Center(
-          child: Checkbox(
-            activeColor: themeData.colorScheme.primary,
-            checkColor: themeData.colorScheme.onPrimary,
-            value: checked,
-            onChanged: onCheckboxChanged,
-            tristate: tristate,
-          ),
+          child: onRowTap == null && !tristate
+              ? const SizedBox(
+                  width: Checkbox.width,
+                )
+              : Checkbox(
+                  activeColor: themeData.colorScheme.primary,
+                  checkColor: themeData.colorScheme.onPrimary,
+                  value: checked,
+                  onChanged: onCheckboxChanged,
+                  tristate: tristate,
+                ),
         ),
       ),
     );
@@ -538,8 +542,8 @@ class DataTable2 extends DataTable {
           tableRows[rowIndex].children![0] = _buildCheckbox(
             context: context,
             checked: row.selected,
-            onRowTap: () => row.onSelectChanged != null
-                ? row.onSelectChanged!(!row.selected)
+            onRowTap: row.onSelectChanged != null
+                ? () => row.onSelectChanged!(!row.selected)
                 : null,
             onCheckboxChanged: row.onSelectChanged,
             overlayColor: row.color ?? effectiveDataRowColor,
